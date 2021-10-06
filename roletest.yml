@@ -1,0 +1,40 @@
+---
+- name: New users are created
+  hosts: all 
+  become: true
+  tasks:
+    - name : Creating users for Server1
+      user:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ server1 }}"
+      when: "'server1' in group_names"
+      notify: reboot system
+
+    - name : Deleting users for Server1
+      user:
+        name: "{{ item }}"
+        state: absent
+      loop: "{{ server1 }}"
+      when: "'server1' in group_names"
+      notify: reboot system
+
+    - name : Creating users for Server2
+      user:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ server2 }}"
+      when: "'server2' in group_names"
+      notify: reboot system
+
+    - name : Deleting users for Server2
+      user:
+        name: "{{ item }}"
+        state: absent
+      loop: "{{ server2 }}"
+      when: "'server2' in group_names"
+      notify: reboot system
+# handlers file for Ruser
+  handlers:
+    - name: reboot system
+      reboot:

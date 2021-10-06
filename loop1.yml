@@ -1,0 +1,37 @@
+---
+- name: new users are created
+  hosts: server1
+  become: true
+  vars:
+    db_users1:
+      - qa
+      - production
+      - development
+    groups_var:
+      - group1
+      - group2
+
+  tasks:
+    - name:  Creating Groups
+      group:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ groups_var }}"
+
+    - name: Creating Users
+      user:
+        name: "{{ item.name }}"
+        groups: "{{ item.groups }}"
+        state: present
+      
+      loop:
+        - { name: 'balaji22', groups: 'group1' }
+        - { name: 'balaji23', groups: 'group1' }
+        - { name: 'balaji22', groups: 'group2' }
+        - { name: 'balaji23', groups: 'group2' }
+
+         
+       
+
+
+

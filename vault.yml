@@ -1,0 +1,18 @@
+# Running the playbook by providing playbook variables
+---
+- name: new user is created
+  hosts: server1
+  become: true
+
+  tasks:
+    - name: Load variable from the encrypted file 
+      include_vars:
+        file: file1
+    - name: display the encrypted file
+      debug: 
+         msg:
+         - "the value of variable1 : {{ var1 }}"
+         - "the value of variable2 : {{ var2 }}"
+         - "the value of password : {{ password }}"
+      no_log: true   
+        

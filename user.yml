@@ -1,0 +1,26 @@
+# Running the playbook by providing playbook variables
+---
+- name: new user is created
+  hosts: server1
+  become: true
+  vars:
+    username: balaji2
+    password: abc@123
+    testuser: test_user_created
+
+  tasks:
+   
+    - name: User gets Created for "{{ username }}"
+      user:
+        name: "{{ username }}"
+        password: "{{ password }}"
+        comment: "{{ testuser }}" 
+        state: present
+
+    - name: User gets deleted for "{{ username }}"
+      user:
+        name: "{{ username }}"
+        password: "{{ password }}"
+        comment: "{{ testuser }}"
+        state: present
+   

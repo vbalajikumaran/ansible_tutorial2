@@ -1,0 +1,62 @@
+---
+- name: new users are created
+  hosts: all
+  become: true
+  vars:
+    groups_var:
+      - group100
+      - group200
+
+  tasks:
+    - name:  Creating Groups
+      group:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ groups_var }}"
+      when: "'Server1' in group_names"
+      notify: Reboot systems
+
+    - name: Creating Users
+      user:
+        name: "{{ item.name }}"
+        groups: "{{ item.groups }}"
+        state: present
+            
+      loop:
+        - { name: 'balaji22', groups: 'group100' }
+        - { name: 'balaji23', groups: 'group100' }
+        - { name: 'balaji222', groups: 'group200' }
+        - { name: 'balaji233', groups: 'group200' }
+      when: "'Server1' in group_names"
+      notify: Reboot systems
+   
+    - name: Deletng Users
+      user:
+        name: "{{ item.name }}"
+        groups: "{{ item.groups }}"
+        state: absent
+
+      loop:
+        - { name: 'balaji22', groups: 'group100' }
+        - { name: 'balaji23', groups: 'group100' }
+        - { name: 'balaji222', groups: 'group200'}
+        - { name: 'balaji233', groups: 'group200' }
+      when: "'Server1' in group_names"
+      notify: Reboot systems  
+         
+    - name:  Deleting Groups
+      group:
+        name: "{{ item }}"
+        state: absent
+      loop: "{{ groups_var }}"
+      when: "'Server1' in group_names"
+      notify: Reboot systems
+
+  handlers:
+    - name: Reboot systems
+      reboot:
+
+
+
+
+

@@ -1,0 +1,22 @@
+---
+ - name: Installing java and apache in both debian and red hat family 
+   hosts: all 
+   gather_facts: true
+   become: true
+
+   tasks:
+  
+     - import_tasks: yum.yml
+       when: ansible_os_family=="RedHat"
+
+     - include_tasks: Debian.yml
+       when: ansible_os_family=="Debian"
+
+  
+     
+
+
+
+
+ 
+  

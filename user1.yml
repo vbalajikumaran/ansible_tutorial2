@@ -1,0 +1,29 @@
+# Running the yaml file by using Directory variables
+---
+- name: new user is created
+  hosts: server1
+  become: true
+  vars:
+    username:
+      test:
+        name: balaji21
+        password: abc@123
+        testuser: test_user_created
+  tasks:
+   
+    - name: User gets Created for "{{ username }}"
+      user:
+        name: "{{ username['test']['name'] }}"
+        password: "{{ username['test']['password'] }}"
+        comment: "{{ username['test']['testuser'] }}" 
+        state: present
+
+    - name: User gets Deleted for "{{ username }}"
+      user:
+        name: "{{ username['test']['name'] }}"
+        password: "{{ username['test']['password'] }}"
+        comment: "{{ username['test']['testuser'] }}"
+        state: absent
+
+    
+           

@@ -1,0 +1,35 @@
+---
+- name: new users are created
+  hosts: all
+  become: true
+
+  tasks:
+
+    - name: Installing applicaition 
+
+      block:
+        - name: DIsplaying the message
+          debug:
+            msg:  "You are in Block"
+
+        - name: Install apache
+          apt:
+            name: apache21
+            state: latest
+
+      rescue:
+        - name: DIsplaying the message one
+          debug:
+            msg:  "You are in Rescue"
+
+      always:
+        - name: Reboot the system 
+          debug:
+            msg: "you are in Always"
+       
+        - name: reboot
+          reboot:
+        
+
+       
+       
