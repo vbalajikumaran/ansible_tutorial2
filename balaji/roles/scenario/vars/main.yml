@@ -1,0 +1,6 @@
+---
+# vars file for scenario
+
+filename : sudoer_testid
+username : testid
+dir : inside vars

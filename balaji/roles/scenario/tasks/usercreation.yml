@@ -1,0 +1,22 @@
+# Creating  Test user  ssh keys and sudoers file
+
+  
+
+  - name: Create an Test User "{{ username }}"
+    user:
+      name: "{{ username }}"
+      group: root
+      state: present
+
+  - name: Copying SSH keys to all the hosts "{{ username }}"
+    authorized_key:
+       user: "{{ username }}"
+       path: /etc/ssh/authorized_keys
+       key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC6eLTKhcRlLLsUs15pfBPFz1Sda0mS+VaLpRa+bHJFn Ansible key"
+
+  - name: add sudoers file to testuser "{{ username }}"  "{{ filename }}"
+    copy:
+      src: "{{ filename }}"
+      dest: /etc/sudoers.d/"{{ username }}"
+      group: root
+      mode: 0440

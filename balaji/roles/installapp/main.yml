@@ -1,0 +1,16 @@
+---
+  - name: installing web server and open java  on red hat family 
+    yum:
+      name:
+        - httpd
+        - java-1.0.8-openjdk
+      state: present
+    when: ansible_os_family=="RedHat"
+   
+  - name: uninstalling  web server and open java on red hat family
+    yum:
+      name:
+        - httpd
+        - java-1.0.8-openjdk
+      state: absent
+    when: ansible_os_family=="RedHat"  

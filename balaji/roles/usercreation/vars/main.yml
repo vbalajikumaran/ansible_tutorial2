@@ -1,0 +1,5 @@
+---
+# vars file for usercreation
+
+filename : sudoer_testid
+username : testid

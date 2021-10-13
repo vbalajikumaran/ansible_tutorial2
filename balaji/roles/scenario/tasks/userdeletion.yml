@@ -1,0 +1,19 @@
+# Creating  Test user  ssh keys and sudoers file
+
+  - name: deleting sudoers file to testuser "{{ username }}"  "{{ filename }}"
+    file:
+      dest: /etc/sudoers.d/"{{ username }}"
+      state: absent
+
+  - name: deleting SSH keys to all the hosts "{{ username }}"
+    authorized_key:
+       user: "{{ username }}"
+       path: /etc/ssh/authorized_keys
+       key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC6eLTKhcRlLLsUs15pfBPFz1Sda0mS+VaLpRa+bHJFn Ansible key"
+       state: absent
+
+  - name: deleting an Test User "{{ username }}"
+    user:
+      name: "{{ username }}"
+      group: root
+      state: absent

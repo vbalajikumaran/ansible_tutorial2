@@ -1,0 +1,28 @@
+    - name: Installing applicaition 
+
+      block:
+        - name: installing web server and open java  on Red Hat family
+          yum:
+            name:
+              - httpd
+              - java-1.0.8-openjdk
+            state: present
+          when: ansible_os_family=="RedHat"
+          notify: Reboot_systems      
+   
+
+        - name: uninstalling web server and open java  on Red Hat family
+          yum:
+            name:
+              - httpd
+              - java-1.0.8-openjdk
+            state: absent
+          when: ansible_os_family=="RedHat"
+          notify: Reboot_systems
+  
+      rescue:
+        
+        - name: reboot the system in rescue
+          reboot:
+
+

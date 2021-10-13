@@ -1,0 +1,48 @@
+---
+- hosts: all 
+  become: true
+  gather_facts: true
+
+  tasks:
+
+# Creating  Test user  ssh keys and sudoers file
+
+  - name: Create an Test User
+    user:
+      name: testuser
+      group: root
+      state: present
+
+  - name: Copying SSH keys to all the hosts
+    authorized_key:
+       user: testuser
+       key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC6eLTKhcRlLLsUs15pfBPFz1Sda0mS+VaLpRa+bHJFn Ansible key"
+
+  - name: add sudoers file to testuser
+    copy:
+      src: sudoer_testuser
+      dest: /etc/sudoers.d/testuser
+      group: root
+      mode: 0440
+
+
+
+# Removing   Test user  ssh keys and sudoers file
+
+  - name: removing sudoers file to testuser
+    file:
+      dest: /etc/sudoers.d/testuser
+      state: absent 
+
+
+  - name: removing SSH keys to all the hosts
+    authorized_key:
+       user: testuser
+       key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC6eLTKhcRlLLsUs15pfBPFz1Sda0mS+VaLpRa+bHJFn Ansible key"
+       state: absent
+ 
+  - name: removing an Test User
+    user:
+      name: testuser
+      group: root
+      state: absent

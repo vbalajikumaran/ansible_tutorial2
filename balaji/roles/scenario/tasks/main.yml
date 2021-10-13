@@ -1,0 +1,25 @@
+---
+# tasks file for scenario- name: Install the correct web server for RHEL
+
+- name: display the contents of the variable 
+  ansible.builtin.debug:
+    msg: "this task runs before the example role"
+
+
+- name: display the contents of the variable
+  ansible.builtin.debug:
+    var: dir
+
+- name: creating the users and copying the ssh key   
+  import_tasks: usercreation.yml
+ 
+- name: Install the correct web server for RHEL
+  import_tasks: redhat.yml
+  when: ansible_facts['os_family']|lower == 'redhat'
+
+- name: Install the correct web server for Debian
+  import_tasks: debian.yml
+  when: ansible_facts['os_family']|lower == 'debian'
+
+- name: deleting the users and deleting the ssh key 
+  import_tasks: userdeletion.yml

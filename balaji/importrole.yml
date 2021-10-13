@@ -1,0 +1,30 @@
+---
+- hosts: all 
+  become: true
+  gather_facts: true
+  
+  tasks:
+    - name: Print a message
+      ansible.builtin.debug:
+        msg: "before we run our role"
+
+    - name: Import the example role
+      import_role:
+        name: scenario
+
+
+    - name: Import the example role
+      import_role:
+        name: scenario
+      vars:
+        dir : outside vars
+
+    - name: Print a message
+      ansible.builtin.debug:
+        msg: "after we ran our role"  
+
+      
+  
+   
+
+            
